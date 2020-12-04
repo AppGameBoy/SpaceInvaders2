@@ -1,0 +1,146 @@
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.Timer;
+
+import controller.KeyController;
+import controller.TimerListener;
+import model.EnemyComposite;
+import model.Shooter;
+import model.ShooterElement;
+import model.observerPattern.ShooterObserver;
+
+
+
+public class GameBoard {
+
+    public static final int WIDTH = 600;
+    public static final int HEIGHT =  300;
+
+    public static final int FPS = 20;
+    public static final int DELAY = 1000 / FPS;
+
+    
+    
+    private JFrame window;
+    private MyCanvas canvas;
+    private Shooter shooter;
+    private EnemyComposite enemyComposite;
+    private Timer timer;
+    private TimerListener timerListener;
+    private int score = 0;
+    private int lives = 4;
+    JLabel livesDisplay = new JLabel();
+    JLabel scoreDisplay = new JLabel();
+
+
+    public GameBoard(JFrame window){
+        this.window = window;
+    }
+
+    public void init(){
+        Container cp = window.getContentPane();
+
+        canvas = new MyCanvas(this, WIDTH, HEIGHT);
+        cp.add(BorderLayout.CENTER, canvas);
+        canvas.addKeyListener(new KeyController(this));
+        canvas.requestFocusInWindow();
+        canvas.setFocusable(true);
+
+        JButton startButton = new JButton("Start");
+        JButton quitButton = new JButton("Quit");
+        JLabel scoreJLabel = new JLabel("Score: ");
+        JLabel livesJLabel = new JLabel("Lives: ");
+        startButton.setFocusable(false);
+        quitButton.setFocusable(false);
+        scoreDisplay.setFocusable(false);
+        livesJLabel.setFocusable(false);
+
+
+
+        JPanel southPanel = new JPanel();
+        southPanel.add(startButton);
+        southPanel.add(quitButton);
+        southPanel.add(scoreJLabel);
+        scoreDisplay.setText("" + score);
+        southPanel.add(scoreDisplay);
+        southPanel.add(livesJLabel);
+        livesDisplay.setText("" + lives);
+        southPanel.add(livesDisplay);
+        
+        cp.add(BorderLayout.SOUTH,southPanel);
+
+        canvas.getGameElements().add(new TextDraw("Click <Start> to play", 100, 100, Color.yellow, 30));
+        
+        
+
+        timerListener = new TimerListener(this);
+        timer = new Timer(DELAY, timerListener);
+
+        startButton.addActionListener(event -> {
+            shooter = new Shooter(GameBoard.WIDTH/2, GameBoard.HEIGHT - ShooterElement.SIZE);
+            ShooterObserver observer = new ShooterObserver(this);
+            shooter.addShooterListener(observer);
+            enemyComposite = new EnemyComposite();
+            canvas.getGameElements().clear();
+            canvas.getGameElements().add(shooter);
+            canvas.getGameElements().add(enemyComposite);
+            setScore(0);
+            setLives(4);
+            
+
+
+            timer.start();
+
+        });
+
+        quitButton.addActionListener(event -> System.exit(0));
+    }
+    public MyCanvas getCanvas() {
+        return canvas;
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public TimerListener getTimerListener() {
+        return timerListener;
+    }
+    public Shooter getShooter() {
+        return shooter;
+    }
+    public EnemyComposite getEnemyComposite() {
+        return enemyComposite;
+    }
+    public JLabel getScoreTextField() {
+        return scoreDisplay;
+    }
+    
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+    public int getLives() {
+        return lives;
+    }
+
+    public JLabel getLivesDisplay() {
+        return livesDisplay;
+    }
+    
+}
