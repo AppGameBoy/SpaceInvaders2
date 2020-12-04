@@ -10,9 +10,9 @@ import view.GameBoard;
 import view.MyCanvas;
 
 public class EnemyComposite extends GameElements {
-    
-    public static final int NROWS =2;
-    public static final int NCOLS =10;
+
+    public static final int NROWS = 2;
+    public static final int NCOLS = 10;
     public static final int ENEMY_SIZE = 20;
     public static final int UNIT_MOVE = 5;
 
@@ -23,18 +23,16 @@ public class EnemyComposite extends GameElements {
     private boolean movingToRight = true;
     private Random random = new Random();
 
-
-
-    public EnemyComposite(){
+    public EnemyComposite() {
         rows = new ArrayList<>();
-        bombs = new  ArrayList<>();
+        bombs = new ArrayList<>();
         items = new ArrayList<>();
 
-        for(int r = 0; r < NROWS;r++){
+        for (int r = 0; r < NROWS; r++) {
             var oneRow = new ArrayList<GameElements>();
             rows.add(oneRow);
-            for(int c = 0; c < NCOLS; c++){
-                oneRow.add(new Enemy(c*ENEMY_SIZE*2,  r * ENEMY_SIZE * 2, ENEMY_SIZE, Color.yellow, true));
+            for (int c = 0; c < NCOLS; c++) {
+                oneRow.add(new Enemy(c * ENEMY_SIZE * 2, r * ENEMY_SIZE * 2, ENEMY_SIZE, Color.yellow, true));
             }
         }
     }
@@ -42,18 +40,18 @@ public class EnemyComposite extends GameElements {
     @Override
     public void render(Graphics2D g2) {
         // render enemys array
-        for( var r: rows){
-            for(var e: r){
+        for (var r : rows) {
+            for (var e : r) {
                 e.render(g2);
             }
         }
 
-        //render bombs
-        for(var b: bombs){
+        // render bombs
+        for (var b : bombs) {
             b.render(g2);
         }
 
-        for(var i: items){
+        for (var i : items) {
             i.render(g2);
         }
 
@@ -63,84 +61,85 @@ public class EnemyComposite extends GameElements {
     public void animate() {
         // TODO Auto-generated method stub
         int dx = UNIT_MOVE;
-        int dy= 0;
-        if (movingToRight){
-            if(rightEnd() >= GameBoard.WIDTH){
+        int dy = 0;
+        if (movingToRight) {
+            if (rightEnd() >= GameBoard.WIDTH) {
                 dx = -dx;
-                dy =ENEMY_SIZE;
+                dy = ENEMY_SIZE;
 
-                
-                
                 movingToRight = false;
             }
-        }else{
+        } else {
             dx = -dx;
-            
-            
-            if(leftEnd()<=0){
-                dx =-dx;
-                dy =ENEMY_SIZE;
+
+            if (leftEnd() <= 0) {
+                dx = -dx;
+                dy = ENEMY_SIZE;
                 movingToRight = true;
             }
 
         }
 
         // update x loc
-        for(var row: rows){
-            for(var e: row){
-                e.x +=dx;
+        for (var row : rows) {
+            for (var e : row) {
+                e.x += dx;
                 e.y += dy;
-                
+
             }
         }
 
-        
-
-        //animate bombs
-        for(var b: bombs){
+        // animate bombs
+        for (var b : bombs) {
             b.animate();
         }
 
-        for(var i: items){
+        for (var i : items) {
             i.animate();
         }
     }
 
-    private int rightEnd(){
+    private int rightEnd() {
         int xEnd = -100;
-        for(var row: rows){
-            if(row.size() == 0 ) continue;
-            int x = row.get(row.size()-1).x + ENEMY_SIZE;
-            if (x > xEnd)xEnd =x;
+        for (var row : rows) {
+            if (row.size() == 0)
+                continue;
+            int x = row.get(row.size() - 1).x + ENEMY_SIZE;
+            if (x > xEnd)
+                xEnd = x;
         }
         return xEnd;
     }
 
-    private int leftEnd(){
+    private int leftEnd() {
         int xEnd = 9000;
-        for(var row: rows){
-            if(row.size() == 0 ) continue;
+        for (var row : rows) {
+            if (row.size() == 0)
+                continue;
             int x = row.get(0).x;
-            if (x < xEnd) xEnd =x;
+            if (x < xEnd)
+                xEnd = x;
         }
         return xEnd;
     }
-//drops the bombs
-	public void dropBombs() {
 
-        for (var row: rows){
-            for(var e:row){
-                if(random.nextFloat() < 0.1F){
-                    bombs.add(new Bomb(e.x,e.y));
+    // drops the bombs
+    public void dropBombs() {
+
+        for (var row : rows) {
+            for (var e : row) {
+                if (random.nextFloat() < 0.1F) {
+                    bombs.add(new Bomb(e.x, e.y));
                 }
             }
         }
-	}
-//removes the bombs
-	public void removeBombsOutOfBound() {
+    }
+
+    // removes the bombs
+    public void removeBombsOutOfBound() {
         var remove = new ArrayList<GameElements>();
-        for (var b: bombs){
-            if(b.y >=GameBoard.HEIGHT){
+        for (var b : bombs) {
+            if (b.y >= GameBoard.HEIGHT) {
                 remove.add(b);
             }
         }
@@ -150,31 +149,28 @@ public class EnemyComposite extends GameElements {
 
     public void dropItems() {
 
-        for (var row: rows){
-            for(var e:row){
-                if(random.nextFloat() < 0.03F){
-                    items.add(new Item(e.x,e.y));
+        for (var row : rows) {
+            for (var e : row) {
+                if (random.nextFloat() < 0.03F) {
+                    items.add(new Item(e.x, e.y));
                 }
             }
         }
-	}
-    
-    
+    }
 
-	public void processCollision(Shooter shooter) {
+    public void processCollision(Shooter shooter) {
         var removeBullets = new ArrayList<GameElements>();
-        
+
         // bullets vs enemies
-        for (var row: rows){
+        for (var row : rows) {
             var removeEnemies = new ArrayList<GameElements>();
-            for(var enemy: row){
-                for (var bullets: shooter.getWeapons()){
-                    if(enemy.collideWith(bullets)){
+            for (var enemy : row) {
+                for (var bullets : shooter.getWeapons()) {
+                    if (enemy.collideWith(bullets)) {
                         removeBullets.add(bullets);
                         removeEnemies.add(enemy);
                         shooter.notifyObserver(Event.EnemyisDestroyed);
 
-                        
                     }
                 }
             }
@@ -182,10 +178,10 @@ public class EnemyComposite extends GameElements {
         }
         shooter.getWeapons().removeAll(removeBullets);
 
-        //enemy vs shooter
-        for(var row: rows){
-            for(var enemy: row){
-                if(enemy.collideWith(shooter)){
+        // enemy vs shooter
+        for (var row : rows) {
+            for (var enemy : row) {
+                if (enemy.collideWith(shooter)) {
                     System.out.println("dead");
                     shooter.notifyObserver(Event.TouchedEnemies);
                 }
@@ -193,15 +189,12 @@ public class EnemyComposite extends GameElements {
             }
         }
 
-
-
-
         // bullets vs bombs
         var removeBombs = new ArrayList<GameElements>();
         removeBullets.clear();
-        for(var b: bombs){
-            for(var bullet: shooter.getWeapons()){
-                if(b.collideWith(bullet)){
+        for (var b : bombs) {
+            for (var bullet : shooter.getWeapons()) {
+                if (b.collideWith(bullet)) {
                     removeBombs.add(b);
                     removeBullets.add(bullet);
                 }
@@ -210,34 +203,43 @@ public class EnemyComposite extends GameElements {
         shooter.getWeapons().removeAll(removeBullets);
         bombs.removeAll(removeBombs);
 
-
-        //bombs vs shooter
+        // bombs vs shooter
         var removeShooterBlocks = new ArrayList<GameElements>();
-        for(var blocks: shooter.getComponents()){
-            for(var b: bombs){
-                if(blocks.collideWith(b)){
+        for (var blocks : shooter.getComponents()) {
+            for (var b : bombs) {
+                if (blocks.collideWith(b)) {
                     removeShooterBlocks.add(blocks);
                     removeBombs.add(b);
                     shooter.notifyObserver(Event.ShooterIsDamaged);
-                    
+
                 }
             }
         }
         shooter.getComponents().removeAll(removeShooterBlocks);
         bombs.removeAll(removeBombs);
 
-        //items vs shooter
+        // items vs shooter
         var removeItems = new ArrayList<>();
-        for(var blocks: shooter.getComponents()){
-            for(var i: items){
-                if(blocks.collideWith(i)){
+        for (var blocks : shooter.getComponents()) {
+            for (var i : items) {
+                if (blocks.collideWith(i)) {
                     removeItems.add(i);
-                    
-                    shooter.setMAX_BULLETS(10);
-                    
-                        
-                    
-                    
+
+                    Thread shootThread = new Thread() {
+                        @Override
+                        public void run() {
+                            shooter.setMAX_BULLETS(10);
+                            try {
+                                Thread.sleep(3000);
+                            } catch (InterruptedException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            shooter.setMAX_BULLETS(3);
+                        }
+                    };
+                    shootThread.start();
+			
                     
                 }
             }
