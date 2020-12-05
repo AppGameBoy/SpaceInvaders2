@@ -6,15 +6,19 @@ import java.util.ArrayList;
 
 import model.observerPattern.Observer;
 import model.observerPattern.Subject;
+import model.strategyPattern.ShooterDeadStrategy;
+import model.strategyPattern.ShooterRenderStrategy;
 
 public class Shooter extends GameElements implements Subject {
 
-    public static final int UNIT_MOVE = 10;
+    public static final int UNIT_MOVE = 20;
     private int MAX_BULLETS = 3;
 
     private ArrayList<GameElements> components = new ArrayList<>();
     private ArrayList<GameElements> weapons = new ArrayList<>();
     private ArrayList<Observer> observers = new ArrayList<>();
+
+    private ShooterRenderStrategy renderStrategy;
 
     public enum Event {
         EnemyisDestroyed, ShooterIsDamaged, Annihilation, TouchedEnemies, PowerUpCollected
@@ -82,6 +86,11 @@ public class Shooter extends GameElements implements Subject {
         for (var w : weapons) {
             w.render(g2);
         }
+         
+        // not sure if this goes here
+        renderStrategy = new ShooterDeadStrategy(this);
+
+        this.renderStrategy.renderAlgorithm(g2);
 
     }
 
