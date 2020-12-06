@@ -16,7 +16,7 @@ import controller.TimerListener;
 import model.EnemyComposite;
 import model.Shooter;
 import model.ShooterElement;
-import model.observerPattern.ShooterObserver;
+import model.observerPattern.shooterObserverPattern.ShooterObserver;
 
 
 

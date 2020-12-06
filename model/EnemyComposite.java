@@ -156,13 +156,6 @@ public class EnemyComposite extends GameElements {
         }
     }
 
-    public void hitBottom(){
-        for(var row: rows){
-            for(var e: row){
-                
-            }
-        }
-    }
 
     // removes the bombs
     public void removeBombsOutOfBound() {
@@ -282,5 +275,9 @@ public class EnemyComposite extends GameElements {
     public ArrayList<GameElements> getBombs() {
         return bombs;
     }
+
+	public void TouchedBottom() {
+
+	}
     
 }

@@ -3,11 +3,11 @@ package model.strategyPattern;
 import model.Shooter;
 import java.awt.Graphics2D;
 
-public class ShooterDeadStrategy implements ShooterRenderStrategy{
+public class ShooterAliveStrategy implements ShooterRenderStrategy{
 
 	private Shooter shooter;
 
-	public ShooterDeadStrategy(Shooter shooter){
+	public ShooterAliveStrategy(Shooter shooter){
 		this.shooter = shooter;
 	}
 

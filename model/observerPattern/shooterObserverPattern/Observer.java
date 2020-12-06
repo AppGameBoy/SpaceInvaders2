@@ -1,4 +1,4 @@
-package model.observerPattern;
+package model.observerPattern.shooterObserverPattern;
 
 public interface Observer {
 	void enemyIsDestroyed();

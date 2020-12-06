@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-import model.observerPattern.Observer;
-import model.observerPattern.Subject;
-import model.strategyPattern.ShooterDeadStrategy;
+import model.observerPattern.shooterObserverPattern.Observer;
+import model.observerPattern.shooterObserverPattern.Subject;
+import model.strategyPattern.ShooterAliveStrategy;
 import model.strategyPattern.ShooterRenderStrategy;
 
 public class Shooter extends GameElements implements Subject {
@@ -88,7 +88,7 @@ public class Shooter extends GameElements implements Subject {
         }
          
         // not sure if this goes here
-        renderStrategy = new ShooterDeadStrategy(this);
+        renderStrategy = new ShooterAliveStrategy(this);
 
         this.renderStrategy.renderAlgorithm(g2);
 
