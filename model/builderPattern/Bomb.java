@@ -10,7 +10,7 @@ import model.GameElements;
 public class Bomb extends GameElements {
 
     public final static int SIZE = 5;
-    public int UNIT_MOVE = 5;
+    public int UNIT_MOVE = 6;
     public int speed;
     private Shape shape;
     private Color color;
