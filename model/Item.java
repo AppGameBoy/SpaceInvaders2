@@ -14,7 +14,7 @@ public class Item extends GameElements {
 
 	@Override
 	public void render(Graphics2D g2) {
-		// TODO Auto-generated method stub
+		//
 		g2.setColor(color);
         if(filled){
             g2.fillRoundRect(x, y, width, height,3,3);
@@ -26,7 +26,7 @@ public class Item extends GameElements {
 
 	@Override
 	public void animate() {
-		// TODO Auto-generated method stub
+		//
         super.y += UNIT_MOVE;
 
 

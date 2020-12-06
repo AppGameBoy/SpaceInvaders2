@@ -45,7 +45,7 @@ public class Bomb extends GameElements {
 
     @Override
     public void render(Graphics2D g2) {
-        // TODO Auto-generated method stub
+        
         g2.setColor(color);
         if(filled){
             g2.fillOval(x, y, width, height);
@@ -59,7 +59,7 @@ public class Bomb extends GameElements {
 
     @Override
     public void animate() {
-        // TODO Auto-generated method stub
+        
         
         super.y += UNIT_MOVE;
 

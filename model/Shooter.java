@@ -29,10 +29,10 @@ public class Shooter extends GameElements implements Subject {
         super(x, y, 0, 0);
 
         var size = ShooterElement.SIZE;
-        var s1 = new ShooterElement(x - size, y - size, Color.white, false);
+        var s1 = new ShooterElement(x - size, y - size, Color.green, false);
         var s2 = new ShooterElement(x, y - size, Color.white, false);
         var s3 = new ShooterElement(x - size, y, Color.white, false);
-        var s4 = new ShooterElement(x, y, Color.white, false);
+        var s4 = new ShooterElement(x, y, Color.green, false);
 
         components.add(s1);
         components.add(s2);
@@ -75,34 +75,9 @@ public class Shooter extends GameElements implements Subject {
         weapons.removeAll(remove);
     }
 
-    @Override
-    public void render(Graphics2D g2) {
-        // TODO Auto-generated method stub
-
-        for (var c : components) {
-            c.render(g2);
-        }
-
-        for (var w : weapons) {
-            w.render(g2);
-        }
-         
-        // not sure if this goes here
-        renderStrategy = new ShooterAliveStrategy(this);
-
-        this.renderStrategy.renderAlgorithm(g2);
-
+    public void setRenderStrategy(ShooterRenderStrategy renderStrategy) {
+        this.renderStrategy = renderStrategy;
     }
-
-    @Override
-    public void animate() {
-        // TODO Auto-generated method stub
-        for (var w : weapons) {
-            w.animate();
-        }
-
-    }
-
     public ArrayList<GameElements> getWeapons() {
         return weapons;
     }
@@ -118,14 +93,43 @@ public class Shooter extends GameElements implements Subject {
     }
 
     @Override
+    public void render(Graphics2D g2) {
+        
+
+        for (var c : components) {
+            c.render(g2);
+        }
+
+        for (var w : weapons) {
+            w.render(g2);
+        }
+         
+        // not sure if this goes here
+       
+
+        renderStrategy.renderAlgorithm(g2);
+
+    }
+
+    @Override
+    public void animate() {
+        
+        for (var w : weapons) {
+            w.animate();
+        }
+
+    }
+
+
+    @Override
     public void addShooterListener(Observer o) {
-        // TODO Auto-generated method stub
+        
         observers.add(o);
     }
 
     @Override
     public void removeShooterListener(Observer o) {
-        // TODO Auto-generated method stub
+        
         observers.remove(o);
     }
 

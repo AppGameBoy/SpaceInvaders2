@@ -1,5 +1,5 @@
 package model.observerPattern.enemyObserverPattern;
 
-public class Subject {
-	
+public interface Observer2 {
+	void TouchedBottom();
 }

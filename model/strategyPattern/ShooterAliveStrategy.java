@@ -13,7 +13,7 @@ public class ShooterAliveStrategy implements ShooterRenderStrategy{
 
 	@Override
 	public void renderAlgorithm(Graphics2D g2) {
-		// TODO Auto-generated method stub
+		//
 		var composite = shooter.getComponents();
 		boolean filled = true;
 

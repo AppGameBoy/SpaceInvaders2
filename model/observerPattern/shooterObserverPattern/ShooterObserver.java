@@ -3,6 +3,8 @@ package model.observerPattern.shooterObserverPattern;
 import java.awt.Color;
 import java.util.Random;
 
+import model.Shooter;
+import model.strategyPattern.ShooterDeadStrategy;
 import view.GameBoard;
 import view.TextDraw;
 
@@ -44,14 +46,17 @@ public class ShooterObserver implements Observer{
 			gameBoard.getCanvas().getGameElements().clear();
 			gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over", 100, 100, Color.RED, 30));
 			int score = gameBoard.getScore();
+			Shooter shooter = gameBoard.getShooter();
 			gameBoard.getCanvas().getGameElements().add(new TextDraw("Score: " + score, 100, 150, Color.YELLOW, 30));
+			shooter.setRenderStrategy(new ShooterDeadStrategy(shooter));
+
 		}
 
 	}
 
 	@Override
 	public void annihilation() {
-		// TODO Auto-generated method stub
+		
 
 	}
 

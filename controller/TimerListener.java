@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import model.Bullet;
 import model.Shooter;
+
 import view.GameBoard;
 
 
@@ -28,7 +29,7 @@ public class TimerListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        
         ++frameCounter;
         update();
         processEventQueue();
@@ -82,7 +83,7 @@ public class TimerListener implements ActionListener{
         enemyComposite.removeBombsOutOfBound();
         enemyComposite.processCollision(shooter);
         shooter.processCollision(enemyComposite);
-        enemyComposite.TouchedBottom();
+        enemyComposite.touchedBottom();
     }
 
     private void update() {

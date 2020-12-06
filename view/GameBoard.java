@@ -16,6 +16,7 @@ import controller.TimerListener;
 import model.EnemyComposite;
 import model.Shooter;
 import model.ShooterElement;
+import model.observerPattern.enemyObserverPattern.EnemyObserver;
 import model.observerPattern.shooterObserverPattern.ShooterObserver;
 
 
@@ -88,8 +89,10 @@ public class GameBoard {
         startButton.addActionListener(event -> {
             shooter = new Shooter(GameBoard.WIDTH/2, GameBoard.HEIGHT - ShooterElement.SIZE);
             ShooterObserver observer = new ShooterObserver(this);
-            shooter.addShooterListener(observer);
+            EnemyObserver observer2 = new EnemyObserver(this);
             enemyComposite = new EnemyComposite();
+            enemyComposite.addEnemyListener(observer2);
+            shooter.addShooterListener(observer);
             canvas.getGameElements().clear();
             canvas.getGameElements().add(shooter);
             canvas.getGameElements().add(enemyComposite);
