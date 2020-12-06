@@ -11,7 +11,7 @@ public class SmartBombBuilder extends BombBuilder {
 
     @Override
     public void buildShape() {
-        bomb.setShape(new Ellipse2D.Float(0, 0, 20, 20));
+        bomb.setShape(new Ellipse2D.Float(0, 0, 200, 200));
     }
 
     @Override
@@ -21,7 +21,7 @@ public class SmartBombBuilder extends BombBuilder {
 
     @Override
     public void buildStrategy() {
-        bomb.setStrategy("Moving Strategy: Follow the shooter");
+        bomb.setStrategy("mega");
     }
     
 }

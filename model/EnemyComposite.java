@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import model.Shooter.Event;
+import model.builderPattern.Bomb;
 import model.builderPattern.BombBuildDirector;
 import model.builderPattern.BombBuilder;
+import model.builderPattern.DroppingBombBuilder;
 import model.builderPattern.SmartBombBuilder;
 import view.GameBoard;
 import view.MyCanvas;
@@ -132,13 +134,23 @@ public class EnemyComposite extends GameElements {
         for (var row : rows) {
             for (var e : row) {
                 if (random.nextFloat() < 0.1F) {
-                    bombs.add(new Bomb(e.x, e.y));
+                    
+
                     BombBuildDirector director = new BombBuildDirector();
                     BombBuilder builder = new SmartBombBuilder();
                     director.setBombBuilder(builder);
-                    director.createBomb();
-                    model.builderPattern.Bomb bomb = director.getBomb();
-                    System.out.println(bomb);
+                    director.createBomb(e.x,e.y);
+                    Bomb bomb = director.getBomb();
+                    bombs.add(bomb); 
+                }else if (random.nextFloat() < 0.2f){
+                    BombBuildDirector director = new BombBuildDirector();
+                    BombBuilder builder = new SmartBombBuilder();
+                    builder = new DroppingBombBuilder();
+                    director.setBombBuilder(builder);
+                    director.createBomb(e.x, e.y);
+                    Bomb bomb = director.getBomb();
+                    bomb = director.getBomb();
+                    bombs.add(bomb);
                 }
             }
         }

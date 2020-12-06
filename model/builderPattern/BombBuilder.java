@@ -12,8 +12,8 @@ public abstract class BombBuilder {
         return bomb;
     }
     
-    public void createBomb() {
-        bomb = new Bomb();
+    public void createBomb(int x, int y) {
+        bomb = new Bomb(x,y);
     }
     
     public abstract void buildShape();

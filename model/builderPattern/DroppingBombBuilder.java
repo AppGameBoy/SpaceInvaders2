@@ -15,19 +15,19 @@ public class DroppingBombBuilder extends BombBuilder {
     @Override
     public void buildShape() {
         
-        bomb.setShape(new Rectangle2D.Float(random.nextInt(700), random.nextInt(700), 20, 20));
+        bomb.setShape(new Rectangle2D.Float(random.nextInt(700), random.nextInt(700), 500, 500));
     }
 
     @Override
     public void buildColor() {
         
-        bomb.setColor(Color.blue);
+        bomb.setColor(Color.GREEN);
     }
 
     @Override
     public void buildStrategy() {
         
-        bomb.setStrategy("Moving strategy: Dropping from the skey in random directions");
+        bomb.setStrategy("dropping");
     }
     
 }
