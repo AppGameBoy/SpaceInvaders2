@@ -24,7 +24,9 @@ public class ShooterObserver implements Observer{
 		gameBoard.getScoreTextField().setText("" + score);
 		if (score == 200){
 			gameBoard.getCanvas().getGameElements().clear();
-			gameBoard.getCanvas().getGameElements().add(new TextDraw("you win", 100, 100, Color.GREEN, 20));
+			gameBoard.getCanvas().getGameElements().add(new TextDraw("YOU WIN!", 100, 100, Color.GREEN, 30));
+			
+			gameBoard.getCanvas().getGameElements().add(new TextDraw("Score: " + score, 100, 150, Color.YELLOW, 30));
 		}
 		
 		
@@ -40,9 +42,9 @@ public class ShooterObserver implements Observer{
 		gameBoard.getLivesDisplay().setText("" + lives);
 		if(gameBoard.getLives()==0){
 			gameBoard.getCanvas().getGameElements().clear();
-			gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over", 100, 100, Color.RED, 20));
+			gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over", 100, 100, Color.RED, 30));
 			int score = gameBoard.getScore();
-			gameBoard.getCanvas().getGameElements().add(new TextDraw("Score: " + score, 100, 200, Color.BLUE, 30));
+			gameBoard.getCanvas().getGameElements().add(new TextDraw("Score: " + score, 100, 150, Color.YELLOW, 30));
 		}
 
 	}
@@ -60,7 +62,9 @@ public class ShooterObserver implements Observer{
 		
 
 			gameBoard.getCanvas().getGameElements().clear();
-			gameBoard.getCanvas().getGameElements().add(new TextDraw("GameOVer", 100, 100, Color.RED, 20));
+			gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over", 100, 100, Color.RED, 30));
+			int score = gameBoard.getScore();
+			gameBoard.getCanvas().getGameElements().add(new TextDraw("Score: " + score, 100, 150, Color.YELLOW, 30));
 
 	}
 	

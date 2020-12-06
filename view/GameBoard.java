@@ -22,10 +22,10 @@ import model.observerPattern.ShooterObserver;
 
 public class GameBoard {
 
-    public static final int WIDTH = 600;
-    public static final int HEIGHT =  300;
+    public static final int WIDTH = 1000;
+    public static final int HEIGHT =  500;
 
-    public static final int FPS = 20;
+    public static final int FPS = 30;
     public static final int DELAY = 1000 / FPS;
 
     
