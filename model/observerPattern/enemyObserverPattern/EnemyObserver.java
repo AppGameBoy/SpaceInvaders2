@@ -5,6 +5,8 @@ import view.TextDraw;
 
 import java.awt.Color;
 
+
+
 public class EnemyObserver implements Observer2 {
 
 	private GameBoard gameBoard;
@@ -19,7 +21,8 @@ public class EnemyObserver implements Observer2 {
 		int score = gameBoard.getScore();
     gameBoard.getCanvas().getGameElements().clear();
 		gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over", 100, 100, Color.RED, 30));
-		gameBoard.getCanvas().getGameElements().add(new TextDraw("Score: " + score, 100, 150, Color.YELLOW, 30));
+    gameBoard.getCanvas().getGameElements().add(new TextDraw("Score: " + score, 100, 150, Color.YELLOW, 30));
+    
 
     }
 	

@@ -8,16 +8,17 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+
 import javax.swing.Timer;
 
 import controller.KeyController;
 import controller.TimerListener;
 import model.EnemyComposite;
 import model.Shooter;
-import model.ShooterElement;
+
 import model.observerPattern.enemyObserverPattern.EnemyObserver;
 import model.observerPattern.shooterObserverPattern.ShooterObserver;
+import model.strategyPattern.ShooterAliveStrategy;
 
 
 
@@ -34,6 +35,7 @@ public class GameBoard {
     private JFrame window;
     private MyCanvas canvas;
     private Shooter shooter;
+    
     private EnemyComposite enemyComposite;
     private Timer timer;
     private TimerListener timerListener;
@@ -87,7 +89,9 @@ public class GameBoard {
         timer = new Timer(DELAY, timerListener);
 
         startButton.addActionListener(event -> {
-            shooter = new Shooter(GameBoard.WIDTH/2, GameBoard.HEIGHT - ShooterElement.SIZE);
+            shooter = new Shooter(GameBoard.WIDTH/2, GameBoard.HEIGHT - 20);
+            
+
             ShooterObserver observer = new ShooterObserver(this);
             EnemyObserver observer2 = new EnemyObserver(this);
             enemyComposite = new EnemyComposite();
@@ -100,6 +104,8 @@ public class GameBoard {
             setLives(4);
             
 
+            shooter.setRenderStrategy(new ShooterAliveStrategy(shooter));
+            
 
             timer.start();
 
