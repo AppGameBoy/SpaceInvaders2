@@ -5,11 +5,11 @@ import java.awt.Graphics2D;
 
 import model.Shooter;
 
-public class ShooterDeadStrategy implements ShooterRenderStrategy {
+public class ShooterRenderDeadStrategy implements ShooterRenderStrategy {
 
 	private Shooter shooter;
 
-    public ShooterDeadStrategy(Shooter shooter){
+    public ShooterRenderDeadStrategy(Shooter shooter){
 		this.shooter = shooter;
     }
     

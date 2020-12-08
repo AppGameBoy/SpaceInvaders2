@@ -5,7 +5,7 @@ import java.awt.Color;
 
 import model.Shooter;
 import model.ShooterElement;
-import model.strategyPattern.ShooterDeadStrategy;
+import model.strategyPattern.ShooterRenderDeadStrategy;
 import view.GameBoard;
 import view.TextDraw;
 
@@ -54,7 +54,7 @@ public class ShooterObserver implements Observer{
 			gameBoard.getCanvas().getGameElements().add(new TextDraw("Score: " + score, 100, 150, Color.YELLOW, 30));
 			
 			Shooter shooter2 = new Shooter(GameBoard.WIDTH/2, GameBoard.HEIGHT - ShooterElement.SIZE);
-			shooter2.setRenderStrategy(new ShooterDeadStrategy(shooter2));
+			shooter2.setRenderStrategy(new ShooterRenderDeadStrategy(shooter2));
 
 			gameBoard.getCanvas().getGameElements().add(shooter2);
 			gameBoard.getCanvas().repaint();

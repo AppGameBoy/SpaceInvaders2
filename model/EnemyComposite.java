@@ -10,7 +10,7 @@ import model.builderPattern.Bomb;
 import model.builderPattern.BombBuildDirector;
 import model.builderPattern.BombBuilder;
 import model.builderPattern.DroppingBombBuilder;
-import model.builderPattern.SmartBombBuilder;
+import model.builderPattern.MegaBombBuilder;
 import model.observerPattern.enemyObserverPattern.Observer2;
 import model.observerPattern.enemyObserverPattern.Subject2;
 import view.GameBoard;
@@ -106,7 +106,7 @@ public class EnemyComposite extends GameElements implements Subject2 {
         for (var b : bombs) {
             b.animate();
         }
-
+        //anime items
         for (var i : items) {
             i.animate();
         }
@@ -141,18 +141,18 @@ public class EnemyComposite extends GameElements implements Subject2 {
 
         for (var row : rows) {
             for (var e : row) {
-                if (random.nextFloat() < 0.1F) {
+                if (random.nextFloat() < 0.08F) {
 
                     BombBuildDirector director = new BombBuildDirector();
-                    BombBuilder builder = new SmartBombBuilder();
+                    BombBuilder builder = new MegaBombBuilder();
                     director.setBombBuilder(builder);
                     director.createBomb(e.x, e.y);
                     Bomb bomb = director.getBomb();
                     bombs.add(bomb);
-                } else if (random.nextFloat() < 0.1f) {
+                } else if (random.nextFloat() < 0.08f) {
                     BombBuildDirector director = new BombBuildDirector();
-                    BombBuilder builder = new SmartBombBuilder();
-                    builder = new DroppingBombBuilder();
+                    BombBuilder builder = new DroppingBombBuilder();
+                    //builder = new DroppingBombBuilder();
                     director.setBombBuilder(builder);
                     director.createBomb(e.x, e.y);
                     Bomb bomb = director.getBomb();
@@ -217,16 +217,8 @@ public class EnemyComposite extends GameElements implements Subject2 {
         }
         shooter.getWeapons().removeAll(removeBullets);
 
-        // enemy vs shooter
-        /* for (var row : rows) {
-            for (var enemy : row) {
-                if (enemy.collideWith(shooter)) {
-                    System.out.println("dead");
-                    shooter.notifyObserver(Event.TouchedEnemies);
-                }
-
-            }
-        } */
+        
+     
 
         // bullets vs bombs
         var removeBombs = new ArrayList<GameElements>();
@@ -241,7 +233,15 @@ public class EnemyComposite extends GameElements implements Subject2 {
         }
         shooter.getWeapons().removeAll(removeBullets);
         bombs.removeAll(removeBombs);
+        
 
+        for(var b: bombs){
+            for(var s: shooter.getSheilds()){
+                if(b.collideWith(s)){
+                    removeBombs.add(b);
+                }
+            }
+        }
         // bombs vs shooter
         var removeShooterBlocks = new ArrayList<GameElements>();
         for (var blocks : shooter.getComponents()) {

@@ -6,8 +6,9 @@ import java.util.ArrayList;
 
 import model.observerPattern.shooterObserverPattern.Observer;
 import model.observerPattern.shooterObserverPattern.Subject;
-import model.strategyPattern.ShooterAliveStrategy;
+import model.strategyPattern.ShooterRenderAliveStrategy;
 import model.strategyPattern.ShooterRenderStrategy;
+import view.GameBoard;
 
 public class Shooter extends GameElements implements Subject {
 
@@ -16,7 +17,14 @@ public class Shooter extends GameElements implements Subject {
 
     private ArrayList<GameElements> components = new ArrayList<>();
     private ArrayList<GameElements> weapons = new ArrayList<>();
+    private ArrayList<GameElements> sheilds = new ArrayList<>();
+    
+
+
+    
+
     private ArrayList<Observer> observers = new ArrayList<>();
+    private Sheild sheild = new Sheild(x, y);
 
     private ShooterRenderStrategy renderStrategy;
 
@@ -38,12 +46,21 @@ public class Shooter extends GameElements implements Subject {
         components.add(s2);
         components.add(s3);
         components.add(s4);
+        
     }
 
     public void moveRight() {
         super.x += UNIT_MOVE;
         for (var c : components) {
             c.x += UNIT_MOVE;
+        }
+
+    }
+
+    public void moveLeft() {
+        super.x -= UNIT_MOVE;
+        for (var c : components) {
+            c.x -= UNIT_MOVE;
         }
 
     }
@@ -54,17 +71,22 @@ public class Shooter extends GameElements implements Subject {
         MAX_BULLETS = mAX_BULLETS;
     }
 
-    public void moveLeft() {
-        super.x -= UNIT_MOVE;
-        for (var c : components) {
-            c.x -= UNIT_MOVE;
-        }
-
-    }
+    
 
     public boolean canFireMoreBullets() {
         return weapons.size() < MAX_BULLETS;
     }
+
+    public void sheild(){
+        
+
+    }
+
+    public Sheild getSheild() {
+        return sheild;
+    }
+
+    
 
     public void removeBulletsOutOfBound() {
         var remove = new ArrayList<GameElements>();
@@ -85,6 +107,10 @@ public class Shooter extends GameElements implements Subject {
     public ArrayList<GameElements> getComponents() {
         return components;
     }
+    public ArrayList<GameElements> getSheilds() {
+        return sheilds;
+    }
+    
 
     public void processCollision(EnemyComposite enemyComposite) {
         var enemyBombs = enemyComposite.getBombs();
@@ -98,11 +124,16 @@ public class Shooter extends GameElements implements Subject {
 
         for (var c : components) {
             c.render(g2);
-        }
+        };
 
         for (var w : weapons) {
             w.render(g2);
         }
+        for (var s: sheilds){
+
+            s.render(g2);
+        }
+        
          
         // not sure if this goes here
        

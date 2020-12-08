@@ -16,7 +16,7 @@ public abstract class BombBuilder {
         bomb = new Bomb(x,y);
     }
     
-    public abstract void buildShape();
+    public abstract void buildShape(int x,int y);
     public abstract void buildColor();
     public abstract void buildStrategy();
 }

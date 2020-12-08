@@ -18,7 +18,7 @@ import model.Shooter;
 
 import model.observerPattern.enemyObserverPattern.EnemyObserver;
 import model.observerPattern.shooterObserverPattern.ShooterObserver;
-import model.strategyPattern.ShooterAliveStrategy;
+import model.strategyPattern.ShooterRenderAliveStrategy;
 
 
 
@@ -80,8 +80,9 @@ public class GameBoard {
         southPanel.add(livesDisplay);
         
         cp.add(BorderLayout.SOUTH,southPanel);
+        canvas.getGameElements().add(new TextDraw("SPACE INVADERS", 350, HEIGHT/2, Color.yellow, 30));
 
-        canvas.getGameElements().add(new TextDraw("Click <Start> to play", 100, 100, Color.yellow, 30));
+        canvas.getGameElements().add(new TextDraw("Click <Start> to play", 300, 300, Color.yellow, 30));
         
         
 
@@ -104,7 +105,7 @@ public class GameBoard {
             setLives(4);
             
 
-            shooter.setRenderStrategy(new ShooterAliveStrategy(shooter));
+            shooter.setRenderStrategy(new ShooterRenderAliveStrategy(shooter));
             
 
             timer.start();
