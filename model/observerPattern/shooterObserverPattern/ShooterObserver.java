@@ -1,15 +1,18 @@
 package model.observerPattern.shooterObserverPattern;
 
 import java.awt.Color;
-import java.util.Random;
 
+
+import model.Shooter;
+import model.ShooterElement;
+import model.strategyPattern.ShooterRenderDeadStrategy;
 import view.GameBoard;
 import view.TextDraw;
 
 public class ShooterObserver implements Observer{
 
 	private GameBoard gameBoard;
-	private Random random = new Random();
+	
 	
 	public ShooterObserver(GameBoard gameBoard){
 		this.gameBoard = gameBoard;
@@ -41,17 +44,27 @@ public class ShooterObserver implements Observer{
 		gameBoard.setLives(lives);
 		gameBoard.getLivesDisplay().setText("" + lives);
 		if(gameBoard.getLives()==0){
+
 			gameBoard.getCanvas().getGameElements().clear();
 			gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over", 100, 100, Color.RED, 30));
 			int score = gameBoard.getScore();
+			Shooter shooter = gameBoard.getShooter();
+			
+			
 			gameBoard.getCanvas().getGameElements().add(new TextDraw("Score: " + score, 100, 150, Color.YELLOW, 30));
+			
+			Shooter shooter2 = new Shooter(GameBoard.WIDTH/2, GameBoard.HEIGHT - ShooterElement.SIZE);
+			shooter2.setRenderStrategy(new ShooterRenderDeadStrategy(shooter2));
+
+			gameBoard.getCanvas().getGameElements().add(shooter2);
+			gameBoard.getCanvas().repaint();
 		}
 
 	}
 
 	@Override
 	public void annihilation() {
-		// TODO Auto-generated method stub
+		
 
 	}
 

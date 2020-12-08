@@ -7,18 +7,18 @@ import java.awt.geom.Ellipse2D;
  * participant: ConcreteBuilder
  */
 
-public class SmartBombBuilder extends BombBuilder {
+public class MegaBombBuilder extends BombBuilder {
 
     @Override
-    public void buildShape() {
-        bomb.setShape(new Ellipse2D.Float(0, 0, 200, 200));
+    public void buildShape(int x , int y) {
+        bomb.setShape(new Ellipse2D.Float(x, y, 30, 30));
     }
 
     @Override
     public void buildColor() {
-        bomb.setColor(Color.red);
+        bomb.setColor(Color.RED);
     }
-
+ 
     @Override
     public void buildStrategy() {
         bomb.setStrategy("mega");

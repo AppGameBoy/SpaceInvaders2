@@ -27,21 +27,32 @@ public class KeyController implements KeyListener {
                 eventQueue.add(TimerListener.EventType.KEY_RIGHT);
                 break;
             case KeyEvent.VK_SPACE:
-            eventQueue.add(TimerListener.EventType.KEY_SPACE);
+                eventQueue.add(TimerListener.EventType.KEY_SPACE);
+                break;
+            case KeyEvent.VK_S:
+                eventQueue.add(TimerListener.EventType.S);
                 break;
         }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
+        //
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
+        int keyCode = e.getKeyCode();
+        var eventQueue = gameBoard.getTimerListener().getEventQueue();
 
+
+        switch(keyCode){
+           
+            case KeyEvent.VK_S:
+                eventQueue.add(TimerListener.EventType.keyReleased);
+                break;
+        }
     }
     
 }

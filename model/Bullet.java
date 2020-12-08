@@ -15,7 +15,7 @@ public class Bullet extends GameElements {
 
     @Override
     public void render(Graphics2D g2) {
-        // TODO Auto-generated method stub
+        //
 
         g2.setColor(color);
         if(filled){
@@ -28,7 +28,7 @@ public class Bullet extends GameElements {
 
     @Override
     public void animate() {
-        // TODO Auto-generated method stub
+        //
         super.y -= UNIT_MOVE;
 
     }

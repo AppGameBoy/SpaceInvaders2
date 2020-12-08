@@ -20,7 +20,7 @@ public class TextDraw extends GameElements {
 
     @Override
     public void render(Graphics2D g2) {
-        // TODO Auto-generated method stub
+        //
         g2.setColor(color);
         g2.setFont(new Font("Courier New" , Font.BOLD,size));
         g2.drawString(text, x, y);
@@ -29,7 +29,7 @@ public class TextDraw extends GameElements {
 
     @Override
     public void animate() {
-        // TODO Auto-generated method stub
+        //
 
     }
     

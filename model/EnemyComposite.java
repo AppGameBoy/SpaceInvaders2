@@ -10,23 +10,31 @@ import model.builderPattern.Bomb;
 import model.builderPattern.BombBuildDirector;
 import model.builderPattern.BombBuilder;
 import model.builderPattern.DroppingBombBuilder;
-import model.builderPattern.SmartBombBuilder;
+import model.builderPattern.MegaBombBuilder;
+import model.observerPattern.enemyObserverPattern.Observer2;
+import model.observerPattern.enemyObserverPattern.Subject2;
 import view.GameBoard;
-import view.MyCanvas;
 
-public class EnemyComposite extends GameElements {
+
+public class EnemyComposite extends GameElements implements Subject2 {
 
     public static final int NROWS = 2;
     public static final int NCOLS = 10;
     public static final int ENEMY_SIZE = 20;
-    public static final int UNIT_MOVE = 5;
+    public static final int UNIT_MOVE = 10;
 
     private ArrayList<ArrayList<GameElements>> rows;
     private ArrayList<GameElements> bombs;
     private ArrayList<GameElements> items;
+    private ArrayList<Observer2> observers2 = new ArrayList<>();
+
 
     private boolean movingToRight = true;
     private Random random = new Random();
+
+    public enum Event2 {
+        TouchedBottom
+    }
 
     public EnemyComposite() {
         rows = new ArrayList<>();
@@ -64,7 +72,7 @@ public class EnemyComposite extends GameElements {
 
     @Override
     public void animate() {
-        // TODO Auto-generated method stub
+        //
         int dx = UNIT_MOVE;
         int dy = 0;
         if (movingToRight) {
@@ -98,7 +106,7 @@ public class EnemyComposite extends GameElements {
         for (var b : bombs) {
             b.animate();
         }
-
+        //anime items
         for (var i : items) {
             i.animate();
         }
@@ -133,19 +141,18 @@ public class EnemyComposite extends GameElements {
 
         for (var row : rows) {
             for (var e : row) {
-                if (random.nextFloat() < 0.1F) {
-                    
+                if (random.nextFloat() < 0.08F) {
 
                     BombBuildDirector director = new BombBuildDirector();
-                    BombBuilder builder = new SmartBombBuilder();
+                    BombBuilder builder = new MegaBombBuilder();
                     director.setBombBuilder(builder);
-                    director.createBomb(e.x,e.y);
+                    director.createBomb(e.x, e.y);
                     Bomb bomb = director.getBomb();
-                    bombs.add(bomb); 
-                }else if (random.nextFloat() < 0.2f){
+                    bombs.add(bomb);
+                } else if (random.nextFloat() < 0.08f) {
                     BombBuildDirector director = new BombBuildDirector();
-                    BombBuilder builder = new SmartBombBuilder();
-                    builder = new DroppingBombBuilder();
+                    BombBuilder builder = new DroppingBombBuilder();
+                    //builder = new DroppingBombBuilder();
                     director.setBombBuilder(builder);
                     director.createBomb(e.x, e.y);
                     Bomb bomb = director.getBomb();
@@ -155,7 +162,6 @@ public class EnemyComposite extends GameElements {
             }
         }
     }
-
 
     // removes the bombs
     public void removeBombsOutOfBound() {
@@ -168,12 +174,23 @@ public class EnemyComposite extends GameElements {
 
         bombs.removeAll(remove);
     }
+    //process the collison with bottom of the screen
+    public void touchedBottom(){
+        for (var row : rows) {
+            for (var e : row) {
+                if (e.y == GameBoard.HEIGHT) {
+                    notifyObserver(Event2.TouchedBottom);
+                }
+            }
+        }
 
+    }
+    // drops the machine gunn boost
     public void dropItems() {
 
         for (var row : rows) {
             for (var e : row) {
-                if (random.nextFloat() < 0.03F) {
+                if (random.nextFloat() < 0.1F) {
                     items.add(new Item(e.x, e.y));
                 }
             }
@@ -200,16 +217,8 @@ public class EnemyComposite extends GameElements {
         }
         shooter.getWeapons().removeAll(removeBullets);
 
-        // enemy vs shooter
-        for (var row : rows) {
-            for (var enemy : row) {
-                if (enemy.collideWith(shooter)) {
-                    System.out.println("dead");
-                    shooter.notifyObserver(Event.TouchedEnemies);
-                }
-
-            }
-        }
+        
+     
 
         // bullets vs bombs
         var removeBombs = new ArrayList<GameElements>();
@@ -224,7 +233,15 @@ public class EnemyComposite extends GameElements {
         }
         shooter.getWeapons().removeAll(removeBullets);
         bombs.removeAll(removeBombs);
+        
 
+        for(var b: bombs){
+            for(var s: shooter.getSheilds()){
+                if(b.collideWith(s)){
+                    removeBombs.add(b);
+                }
+            }
+        }
         // bombs vs shooter
         var removeShooterBlocks = new ArrayList<GameElements>();
         for (var blocks : shooter.getComponents()) {
@@ -233,6 +250,7 @@ public class EnemyComposite extends GameElements {
                     removeShooterBlocks.add(blocks);
                     removeBombs.add(b);
                     shooter.notifyObserver(Event.ShooterIsDamaged);
+                    
 
                 }
             }
@@ -254,15 +272,14 @@ public class EnemyComposite extends GameElements {
                             try {
                                 Thread.sleep(3000);
                             } catch (InterruptedException e) {
-                                // TODO Auto-generated catch block
+                                
                                 e.printStackTrace();
                             }
                             shooter.setMAX_BULLETS(3);
                         }
                     };
                     shootThread.start();
-			
-                    
+
                 }
             }
         }
@@ -270,14 +287,37 @@ public class EnemyComposite extends GameElements {
 
     }
 
-    
-    
     public ArrayList<GameElements> getBombs() {
         return bombs;
     }
 
-	public void TouchedBottom() {
+    @Override
+    public void addEnemyListener(Observer2 o) {
+        //
+        observers2.add(o);
 
-	}
+    }
+
+    @Override
+    public void removeEnemyListener(Observer2 o) {
+        //
+        observers2.remove(o);
+    }
+
+    @Override
+    public void notifyObserver(Event2 event2) {
+       switch(event2){
+            case TouchedBottom:
+                for(var o: observers2){
+                    o.TouchedBottom();
+                }
+                break;
+       }    
+
+    }
+
+	
+
+	
     
 }

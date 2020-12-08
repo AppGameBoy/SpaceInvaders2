@@ -5,20 +5,25 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 import model.Bullet;
+import model.Sheild;
 import model.Shooter;
+
 import view.GameBoard;
 
 
 public class TimerListener implements ActionListener{
 
     public enum EventType{
-        KEY_RIGHT, KEY_LEFT, KEY_SPACE
+        KEY_RIGHT, KEY_LEFT, KEY_SPACE, S, keyReleased
     }
 
     private GameBoard gameBoard;
     private LinkedList<EventType> eventQueue;
     private final int BOMB_DROP_FREQ = 20;
     private int frameCounter = 0;
+	
+    
+
 
 
     public TimerListener(GameBoard gameBoard){
@@ -28,7 +33,7 @@ public class TimerListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        
         ++frameCounter;
         update();
         processEventQueue();
@@ -38,27 +43,38 @@ public class TimerListener implements ActionListener{
     }
 
     private void processEventQueue(){
+        Shooter shooter = gameBoard.getShooter();
+
+        Sheild sheild = new Sheild(shooter.x-36, shooter.y-35);
         while(!eventQueue.isEmpty()){
             var e = eventQueue.getFirst();
             eventQueue.removeFirst();
-            Shooter shooter = gameBoard.getShooter();
+            
             if(shooter == null)return;
 
 
             switch(e){
                 case KEY_LEFT:
                     shooter.moveLeft();
+                    
                     break;
                 case KEY_RIGHT:
                     shooter.moveRight();
+                    
                     break;                    
                 case KEY_SPACE:
                     if(shooter.canFireMoreBullets()){
                         shooter.getWeapons().add(new Bullet(shooter.x, shooter.y));
                     }
-                    
-
-                    
+                    break;
+                case S:
+                    shooter.getSheilds().add(sheild);
+                            
+                  
+                    break;
+                case keyReleased:
+                    shooter.getSheilds().clear();
+                    System.out.println("worked");
                     break;
                     
             }
@@ -82,7 +98,7 @@ public class TimerListener implements ActionListener{
         enemyComposite.removeBombsOutOfBound();
         enemyComposite.processCollision(shooter);
         shooter.processCollision(enemyComposite);
-        enemyComposite.TouchedBottom();
+        enemyComposite.touchedBottom();
     }
 
     private void update() {

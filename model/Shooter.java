@@ -6,8 +6,9 @@ import java.util.ArrayList;
 
 import model.observerPattern.shooterObserverPattern.Observer;
 import model.observerPattern.shooterObserverPattern.Subject;
-import model.strategyPattern.ShooterAliveStrategy;
+import model.strategyPattern.ShooterRenderAliveStrategy;
 import model.strategyPattern.ShooterRenderStrategy;
+import view.GameBoard;
 
 public class Shooter extends GameElements implements Subject {
 
@@ -16,7 +17,14 @@ public class Shooter extends GameElements implements Subject {
 
     private ArrayList<GameElements> components = new ArrayList<>();
     private ArrayList<GameElements> weapons = new ArrayList<>();
+    private ArrayList<GameElements> sheilds = new ArrayList<>();
+    
+
+
+    
+
     private ArrayList<Observer> observers = new ArrayList<>();
+    private Sheild sheild = new Sheild(x, y);
 
     private ShooterRenderStrategy renderStrategy;
 
@@ -29,21 +37,30 @@ public class Shooter extends GameElements implements Subject {
         super(x, y, 0, 0);
 
         var size = ShooterElement.SIZE;
-        var s1 = new ShooterElement(x - size, y - size, Color.white, false);
+        var s1 = new ShooterElement(x - size, y - size, Color.green, false);
         var s2 = new ShooterElement(x, y - size, Color.white, false);
         var s3 = new ShooterElement(x - size, y, Color.white, false);
-        var s4 = new ShooterElement(x, y, Color.white, false);
+        var s4 = new ShooterElement(x, y, Color.green, false);
 
         components.add(s1);
         components.add(s2);
         components.add(s3);
         components.add(s4);
+        
     }
 
     public void moveRight() {
         super.x += UNIT_MOVE;
         for (var c : components) {
             c.x += UNIT_MOVE;
+        }
+
+    }
+
+    public void moveLeft() {
+        super.x -= UNIT_MOVE;
+        for (var c : components) {
+            c.x -= UNIT_MOVE;
         }
 
     }
@@ -54,17 +71,22 @@ public class Shooter extends GameElements implements Subject {
         MAX_BULLETS = mAX_BULLETS;
     }
 
-    public void moveLeft() {
-        super.x -= UNIT_MOVE;
-        for (var c : components) {
-            c.x -= UNIT_MOVE;
-        }
-
-    }
+    
 
     public boolean canFireMoreBullets() {
         return weapons.size() < MAX_BULLETS;
     }
+
+    public void sheild(){
+        
+
+    }
+
+    public Sheild getSheild() {
+        return sheild;
+    }
+
+    
 
     public void removeBulletsOutOfBound() {
         var remove = new ArrayList<GameElements>();
@@ -75,34 +97,9 @@ public class Shooter extends GameElements implements Subject {
         weapons.removeAll(remove);
     }
 
-    @Override
-    public void render(Graphics2D g2) {
-        // TODO Auto-generated method stub
-
-        for (var c : components) {
-            c.render(g2);
-        }
-
-        for (var w : weapons) {
-            w.render(g2);
-        }
-         
-        // not sure if this goes here
-        renderStrategy = new ShooterAliveStrategy(this);
-
-        this.renderStrategy.renderAlgorithm(g2);
-
+    public void setRenderStrategy(ShooterRenderStrategy renderStrategy) {
+        this.renderStrategy = renderStrategy;
     }
-
-    @Override
-    public void animate() {
-        // TODO Auto-generated method stub
-        for (var w : weapons) {
-            w.animate();
-        }
-
-    }
-
     public ArrayList<GameElements> getWeapons() {
         return weapons;
     }
@@ -110,6 +107,10 @@ public class Shooter extends GameElements implements Subject {
     public ArrayList<GameElements> getComponents() {
         return components;
     }
+    public ArrayList<GameElements> getSheilds() {
+        return sheilds;
+    }
+    
 
     public void processCollision(EnemyComposite enemyComposite) {
         var enemyBombs = enemyComposite.getBombs();
@@ -118,14 +119,48 @@ public class Shooter extends GameElements implements Subject {
     }
 
     @Override
+    public void render(Graphics2D g2) {
+        
+
+        for (var c : components) {
+            c.render(g2);
+        };
+
+        for (var w : weapons) {
+            w.render(g2);
+        }
+        for (var s: sheilds){
+
+            s.render(g2);
+        }
+        
+         
+        // not sure if this goes here
+       
+
+        renderStrategy.renderAlgorithm(g2);
+
+    }
+
+    @Override
+    public void animate() {
+        
+        for (var w : weapons) {
+            w.animate();
+        }
+
+    }
+
+
+    @Override
     public void addShooterListener(Observer o) {
-        // TODO Auto-generated method stub
+        
         observers.add(o);
     }
 
     @Override
     public void removeShooterListener(Observer o) {
-        // TODO Auto-generated method stub
+        
         observers.remove(o);
     }
 

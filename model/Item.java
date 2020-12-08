@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 public class Item extends GameElements {
 
-	public static final int SIZE = 10;
+	public static final int SIZE = 5;
     public static final int UNIT_MOVE = 5;
 
 	public Item(int x, int y){
@@ -14,10 +14,10 @@ public class Item extends GameElements {
 
 	@Override
 	public void render(Graphics2D g2) {
-		// TODO Auto-generated method stub
+		//
 		g2.setColor(color);
         if(filled){
-            g2.fillRoundRect(x, y, width, height,3,3);
+            g2.fillRoundRect(x, y, 20, height,3,3);
         } else {
             g2.drawRoundRect(x, y, width, height,3,3);
         }
@@ -26,7 +26,7 @@ public class Item extends GameElements {
 
 	@Override
 	public void animate() {
-		// TODO Auto-generated method stub
+		//
         super.y += UNIT_MOVE;
 
 

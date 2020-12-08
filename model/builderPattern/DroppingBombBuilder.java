@@ -13,15 +13,15 @@ public class DroppingBombBuilder extends BombBuilder {
     private Random random = new Random();
 
     @Override
-    public void buildShape() {
+    public void buildShape(int x, int y) {
         
-        bomb.setShape(new Rectangle2D.Float(random.nextInt(700), random.nextInt(700), 500, 500));
+        bomb.setShape(new Rectangle2D.Float(x,y,10, 10));
     }
 
     @Override
     public void buildColor() {
         
-        bomb.setColor(Color.GREEN);
+        bomb.setColor(Color.blue);
     }
 
     @Override

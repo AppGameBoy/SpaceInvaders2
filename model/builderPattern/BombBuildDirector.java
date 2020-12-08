@@ -18,7 +18,7 @@ public class BombBuildDirector {
     
     public void createBomb(int x, int y) {
         builder.createBomb( x,  y);
-        builder.buildShape();
+        builder.buildShape(x,y );
         builder.buildColor();
         builder.buildStrategy();
     }
